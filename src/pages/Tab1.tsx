@@ -1,6 +1,5 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonPage, IonRow, IonTitle, IonToolbar, isPlatform } from '@ionic/react';
 
-import { Geolocation } from '@capacitor/geolocation';
 import { useEffect, useState } from 'react';
 import { SkeletonDashboard } from '../components/SkeletonDashboard';
 import { refreshOutline } from 'ionicons/icons';
@@ -19,23 +18,14 @@ const Tab1 = () => {
   const getCurrentPosition = async () => {
 
     setCurrentWeather(false);
-    
+
     const coordenadaEstatica = {
       latitude:'-25.483902792541123',
       longitude:'-54.671193362970264'
     };
-    const coordinates = ((isPlatform('ios')||isPlatform('android'))?
-    await Geolocation.getCurrentPosition().then((data)=>{
-      if(data.coords){
-        return data
-      }
-    }).catch(err=>{
-      console.warn(err);
-      return coordenadaEstatica
-    })
-    :coordenadaEstatica);
+   
 
-    getAddress(coordinates);
+    getAddress(coordenadaEstatica);
   }
 
   const getAddress = async (coords:any) => {
