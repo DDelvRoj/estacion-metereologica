@@ -1,10 +1,16 @@
 import { IonCardSubtitle, IonCol, IonIcon, IonNote, IonRow } from "@ionic/react";
 import { pulseOutline, sunnyOutline, thermometerOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
+import { WeatherData } from "../data/types";
 
-export const WeatherProperty = ({type, currentWeather}) => {
+interface WeatherPropertyProps {
+  type:"wind"|"feelsLike"|"indexUV"|"pressure", 
+  currentWeather: WeatherData
+}
 
-  const [property, setProperty] = useState(false);
+export const WeatherProperty:React.FC<WeatherPropertyProps> = ({type, currentWeather}) => {
+
+  const [property, setProperty] = useState<any>(false);
 
   const properties = {
 
@@ -13,7 +19,7 @@ export const WeatherProperty = ({type, currentWeather}) => {
       icon: "/assets/wind.png",
       alt: "wind",
       label: "Viento",
-      value: `${currentWeather.current.wind_mph}mph`
+      value: `${currentWeather.current.wind_kph} km/h`
     },
     feelsLike: {
 
