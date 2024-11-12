@@ -4,61 +4,59 @@ import { useEffect, useState } from "react";
 import { WeatherData } from "../data/types";
 
 interface WeatherPropertyProps {
-  type:"wind"|"feelsLike"|"indexUV"|"pressure", 
-  currentWeather: WeatherData
+  type: "wind" | "feelsLike" | "indexUV" | "pressure";
+  currentWeather: WeatherData;
 }
 
-export const WeatherProperty:React.FC<WeatherPropertyProps> = ({type, currentWeather}) => {
+export const WeatherProperty: React.FC<WeatherPropertyProps> = ({ type, currentWeather }) => {
+  const [property, setProperty] = useState<any>(null);
 
-  const [property, setProperty] = useState<any>(false);
+  // Accedemos a la primera observación de currentWeather
+  const observation = currentWeather.observations[0];
 
   const properties = {
-
     wind: {
       isIcon: false,
       icon: "/assets/wind.png",
       alt: "wind",
       label: "Viento",
-      value: `${currentWeather.current.wind_kph} km/h`
+      value: `${observation.metric.windSpeed} m/s`
     },
     feelsLike: {
-
       isIcon: true,
       icon: thermometerOutline,
       alt: "feels like",
-      label: "Sensación Termica",
-      value: `${currentWeather.current.feelslike_c}°C`
+      label: "Sensación Térmica",
+      value: `${observation.metric.heatIndex}°C`
     },
     indexUV: {
-
       isIcon: true,
       icon: sunnyOutline,
       alt: "index uv",
       label: "UV",
-      value: currentWeather.current.uv
+      value: observation.uv
     },
     pressure: {
-
       isIcon: true,
       icon: pulseOutline,
       alt: "pressure",
       label: "Presión",
-      value: `${currentWeather.current.pressure_mb} mbar`
+      value: `${observation.metric.pressure} mbar`
     }
   };
 
   useEffect(() => {
-
     setProperty(properties[type]);
   }, [type]);
 
-  return (
+  if (!property) return null;
 
+  return (
     <IonCol size="6">
       <IonRow className="ion-justify-content-center ion-align-items-center">
         <IonCol size="3">
           {!property.isIcon && <img alt={property.alt} src={property.icon} height="32" width="32" />}
-          {property.isIcon && <IonIcon icon={property.icon} color="medium" style={{fontSize: "2rem"}} />}
+          {property.isIcon && <IonIcon icon={property.icon} color="medium" style={{ fontSize: "2rem" }} />}
         </IonCol>
 
         <IonCol size="9">
@@ -68,4 +66,4 @@ export const WeatherProperty:React.FC<WeatherPropertyProps> = ({type, currentWea
       </IonRow>
     </IonCol>
   );
-}
+};
