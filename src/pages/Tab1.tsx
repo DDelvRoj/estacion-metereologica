@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { SkeletonDashboard } from '../components/SkeletonDashboard';
 import { refreshOutline } from 'ionicons/icons';
@@ -57,8 +57,12 @@ const Tab1 = () => {
 
         <IonRow className="ion-margin-start ion-margin-end ion-justify-content-center ion-text-center">
           <IonCol size="12">
-            <h4>Datos del clima</h4>
-            {localTime && <p>{`Hora local: ${localTime}`}</p>}
+            {localTime && 
+              <IonLabel className='ion-padding'>
+                <br/><br/>
+                <h4>{`Última Actualización: ${(new Date(localTime)).toTimeString().split(' ')[0]}`}</h4>
+              </IonLabel>
+            }
           </IonCol>
         </IonRow>
 
